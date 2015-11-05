@@ -1,0 +1,162 @@
+<html>
+<head>
+
+</head>
+<body>
+	<H1>Hero</H1>
+	<form>
+		X:
+		<input type="text" id="X" value="5">
+		Y:
+		<input type="text" id="Y" value="5">
+		<br>	
+
+		<h3>Hero1 Inputs:</h3>	
+		<input type="text" id="inputhero1" value="12N">
+		<br>
+		<h3>Commands:</h3>
+		<input type="text" id="command1" value = "LMLMLMLMM">
+		<br>
+		<h3>Hero2 Inputs:</h3>
+		<input type="text" id="inputhero2" value="33E">
+		<br>
+		<h3>Hero2 Commands:</h3>
+		<input type="text" id="command2" value = "MMRMMRMRRM">
+		<br>
+		<br>
+		<input type="button" style="height:40px;width:200px;background-color:aqua;" id="btnMove" value="Move" onclick="btnOnClick()">
+		<br>
+
+		<h3 style="color:green">Hero1 Outputs:</h3>
+		<input type="text" id="output1" style="background-color:green">
+
+		
+		<h3 style="color:green">Hero2 Outputs:</h3>
+		<input type="text" id="output2" style="background-color:green">
+	</form>
+
+	<script>
+		console.log("heroes");
+		var X = 5;
+		var Y = 5;
+
+		var hero1 = {x:1, y:2, f:'N'};
+		var command1 = "LMLMLMLMM";
+
+		var hero2 = {x:3, y:3, f:'E'};
+		var command2 = "MMRMMRMRRM";
+
+		// summary
+		// the main function to move a hero
+		// 
+		function move(hero, com){
+			var comArr = [];
+			comArr = com.split('');
+			comArr.forEach(function(element, index, comArr){
+				console.log(element);
+				if(element === 'L')
+				{
+					hero.f = moveL(hero.f);
+				}
+				else if(element === 'R')
+				{
+					hero.f = moveR(hero.f);
+				}
+				else {
+					moveM(hero);
+				}
+			});
+		} 
+
+		function moveL(f){
+			if(f === 'N'){
+				return 'W';
+			}
+			else if(f === 'W'){
+				return 'S';
+			}
+			else if(f === 'S'){
+				return 'E';
+			}
+			else{
+				return 'N';
+			}
+		}
+
+		function moveR(f){
+			if(f === 'N'){
+				return 'E';
+			}
+			else if(f === 'E'){
+				return 'S';
+			}
+			else if(f === 'S'){
+				return 'W';
+			}
+			else{
+				return 'N';
+			}
+		}
+
+		function moveM(hero)
+		{
+			if(hero.f === 'N'){
+				if(hero.y < Y){
+					hero.y += 1;					
+				}
+			}
+			else if(hero.f === 'E'){
+				if(hero.x < X){
+					hero.x += 1;
+				}
+			}
+			else if(hero.f === 'S'){
+				if(hero.y > 0){
+					hero.y -= 1;
+				}
+			}
+			else{
+				if(hero.x > 0){
+					hero.x -= 1;
+				}
+			}
+		}
+
+		function output(hero){
+			console.log(hero.x.toString() + hero.y.toString() + hero.f);
+		}
+
+		function parseHeroString(str){
+			var hero = {x:0, y:0, f:''};
+			var heroStr = str.split('');
+			hero.x = parseInt(heroStr[0], "10");
+			hero.y = parseInt(heroStr[1], "10");
+			hero.f = heroStr[2];
+
+			return hero;
+		}
+
+		function btnOnClick(e){
+			console.log("button click");
+			window.onload(e);
+		}
+
+		window.onload = function(e){
+			// move hero1
+			hero1 = parseHeroString(document.getElementById("inputhero1").value);
+			command1 = document.getElementById("command1").value;
+			move(hero1, command1);
+			output(hero1);
+			document.getElementById("output1").value = hero1.x.toString() + hero1.y.toString() + hero1.f;
+
+			// move hero2
+			hero2 = parseHeroString(document.getElementById("inputhero2").value);
+			command2 = document.getElementById("command2").value;
+			move(hero2, command2);
+			output(hero2);
+			document.getElementById("output2").value = hero2.x.toString() + hero2.y.toString() + hero2.f;
+		}
+
+	</script>
+</body>
+</html>
